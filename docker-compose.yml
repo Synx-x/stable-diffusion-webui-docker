@@ -30,6 +30,8 @@ services:
     image: sd-auto:78
     environment:
       - CLI_ARGS=--allow-code --medvram --xformers --enable-insecure-extension-access --api
+    command: >
+      bash -c "pip install --upgrade typing_extensions && python webui.py --listen ${CLI_ARGS}"
 
   auto-cpu:
     <<: *automatic
@@ -37,6 +39,8 @@ services:
     deploy: {}
     environment:
       - CLI_ARGS=--no-half --precision full --allow-code --enable-insecure-extension-access --api
+    command: >
+      bash -c "pip install --upgrade typing_extensions && python webui.py --listen ${CLI_ARGS}"
 
   comfy: &comfy
     <<: *base_service
@@ -45,7 +49,8 @@ services:
     image: sd-comfy:7
     environment:
       - CLI_ARGS=
-
+    command: >
+      bash -c "pip install --upgrade typing_extensions && python main.py ${CLI_ARGS}"
 
   comfy-cpu:
     <<: *comfy
@@ -53,3 +58,5 @@ services:
     deploy: {}
     environment:
       - CLI_ARGS=--cpu
+    command: >
+      bash -c "pip install --upgrade typing_extensions && python main.py ${CLI_ARGS}"
